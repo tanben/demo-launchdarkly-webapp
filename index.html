@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="./css/main.css" rel="stylesheet">
+        <!--
+        This method is not recommended for production use.
+        -->
+        <script crossorigin="anonymous" src="https://unpkg.com/launchdarkly-js-client-sdk@2"></script> 
+        
+        <script src="./js/pageUtil.js"></script>
+        <script src="./js/ld_js_wrapper.js"></script>
+
+        <title>Demo JS Application</title>
+        <script>
+            const config = {
+                sdkVersion : LDClient.version,
+                clientId:'<YOU LD CLIENT-ID>',
+                project:'sample-js-demo',
+                environment:'development',
+                debug:false,
+                createUser
+
+            };
+
+            // also creates a window.ldWrapperInstance
+            const ldWrapper = ld_js_wrapper(config);
+
+            // Using window.ldWrapperInstance by default or override with
+            // const pageUtils = PageUtils( ldWrapper );
+            const pageUtils = PageUtils();
+
+            window.addEventListener('DOMContentLoaded', async() => {
+                
+                document.querySelector('#main').style.display="none";
+                ldWrapper.onReady(async function(){
+                    
+                    // pageUtils.setArtistDetails (); // use artists sample data
+                    pageUtils.setLaunchersDetails();  // use Dark launchers sample data
+                    
+                    await pageUtils.register();
+                    
+                    let user =  ldWrapper.getUser();
+                    let name = (!user.anonymous)? user.name : `Anonymous-${user.key.split("-")[0]}`;
+                    
+                    document.getElementById('captionMessage').textContent=`Hello ${name}`;
+                    document.querySelector('#main').style.display="block";
+                });    
+            });
+     
+            ldWrapper.onError(({message})=>{
+                console.log(`index.html: Error status detected. ${message}`);
+            });
+
+            ldWrapper.onFailed( ({message})=>{
+                console.log(`index.html: Failed status detected. ${message}`);
+            });
+            
+
+        </script>
+    </head>
+
+    <body>
+        <div id="bodyLayout" class="">
+            <div class="site-bg">
+                <img id="heroBGImage" src="./images/jtoggle-hero.png" >
+            </div>
+            <div id="navContainer" class="nav-container">
+                <ul id="navList" class="nav-list">
+                    <li id="user1" class="menu-item"><span><a href="javascript:pageUtils.switchUser('user1')" class="menu-link">Seth</a></span></li>
+                    <li id="user2" class="menu-item"><span><a href="javascript:pageUtils.switchUser('user2')" class="menu-link">Lisa</a></span></li>
+                    <li id="user3" class="menu-item"><span><a href="javascript:pageUtils.switchUser('user3')" class="menu-link">Rajah</a></span></li>
+                    <li id="user4" class="menu-item"><span><a href="javascript:pageUtils.switchUser('user4')" class="menu-link">Maria</a></span></li>
+                    <li id="user5" class="menu-item"><span><a href="javascript:pageUtils.switchUser('user5')" class="menu-link">Anonymous</a></span></li>
+               </ul>
+                
+            </div>
+            <div id="main" class="main-container layout">
+                  <div id="heroContainer" class="hero-container">
+                    <div id="heroImageContainer" class="image-container">
+                        <img id="heroImage" src="./images/jtoggle-hero.png" class="hero-image">
+                    </div>
+                </div>
+
+                <div id="captionContainer" class="caption-container">
+                    <header class="header">
+                        <h1>
+                            <div id="caption" class="caption">
+                                <div id="captionMessage" class="caption-message">Hello Anonymous</div>
+                                <div id="captionMessage2" class="caption-message"></div>
+                                <span id="captionBadge" class="caption-badge">0</span>
+                            </div>
+                            <div id="ctaLikebutton" class="likebutton-container">
+                                <img id="likeButton" src="./images/likebutton.png" class="likebutton" onclick="javascript:pageUtils.updateBadge()">
+                            </div>
+                        </h1>
+                    </header>
+                </div><!-- captionContainer-->
+
+                <div id="debugContainer" class="debug-container">
+                   <header>
+                        <div class="caption">
+                            <span id="envDetail" class="caption-message-tiny debug-color"></span>
+                            <span id="userDetail" class="caption-message-tiny debug-color"></span>
+                        </div>
+                   </header>
+                </div><!-- debugContainer-->
+            </div><!-- main -->
+        </div><!-- bodyLayout-->
+    </body>
+</html>

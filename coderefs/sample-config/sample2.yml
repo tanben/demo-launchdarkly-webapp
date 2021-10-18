@@ -1,0 +1,15 @@
+aliases:
+  - type: literal
+    flags:
+      show-like-button:
+        - showLikeButton
+      show-badge:
+        - showBadge
+      temporary-throw-away-flag:
+        - throwAwayFlag
+      show-check-mark:
+        - showCheckmark
+      show-guest-list:
+        - showGuestList
+      get-artists-details:
+        - getArtistsDetails
