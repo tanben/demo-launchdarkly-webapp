@@ -219,11 +219,11 @@ resource "launchdarkly_feature_flag" "showUIDebug" {
 
   variations {
     value = true
-    name = "Enable dark mode"
+    name = "Enable UI Debug"
   }
   variations {
     value = false
-    name = "Disable dark mode"
+    name = "Disable UI Debug"
   }
 
   defaults {
@@ -311,6 +311,21 @@ resource "launchdarkly_feature_flag_environment" "getLauncherDetailsTarget" {
   }
   off_variation = 2
 }
+
+
+
+resource "launchdarkly_feature_flag_environment" "showUIDebug" {
+  flag_id           = launchdarkly_feature_flag.showUIDebug.id
+  env_key           = var.launchdarkly_environment_key
+  on = false
+  track_events      = false
+
+  fallthrough {
+   variation=0
+  }
+  off_variation = 1
+}
+
 
 
 data "launchdarkly_environment" "environment" {
