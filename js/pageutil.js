@@ -2,7 +2,7 @@
 const PageUtils= (ldWrapper) => {
     
     ldWrapper = (!ldWrapper) ? window.ldWrapperInstance : ldWrapper ;
-    let {project, environment, clientId, SDKVersion} = ldWrapper;
+    let {project, environment, clientId, version:SDKVersion} = ldWrapper;
     
     
     function setArtistDetails(){

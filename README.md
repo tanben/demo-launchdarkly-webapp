@@ -60,7 +60,6 @@ access_token="<Access Token for Terraform>"
 3. Edit the index.html, and paste your client-side id
 ```
 const config = {
-                sdkVersion : LDClient.version,
                 clientId:'<LD Client-side ID>',
                 project:'sample-js-demo',
                 environment:'development',

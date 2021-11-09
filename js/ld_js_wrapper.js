@@ -13,9 +13,9 @@ const ld_js_wrapper = ({clientId, project, environment,  debug=false, createUser
         STATUS_FAILED:'failed',
         STATUS_ERROR:'error',
         status:"initializing",
+        version: LDClient.version,
         project,
         environment,
-        SDKVersion:"0",
         clientId,
         onError:function(fn){this.on('error',function(error){
             this.status= this.STATUS_ERROR;
@@ -36,6 +36,7 @@ const ld_js_wrapper = ({clientId, project, environment,  debug=false, createUser
     }
     ;
     function main(){
+        
         const options={
             evaluationReasons:false
         };
@@ -45,7 +46,7 @@ const ld_js_wrapper = ({clientId, project, environment,  debug=false, createUser
         }
 
         
-        let SDKVersion= LDClient.version;
+        
         let ldClient = LDClient.initialize(
                                             clientId,
                                             user,
