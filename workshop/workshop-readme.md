@@ -101,11 +101,11 @@ Here are some example uses for targeting:
 Context objects contain attributes, each of which has a name and a value. In this code snippet, the context only contains one attribute named key. The key is the standard attribute that LaunchDarkly uses as an ID for a context, so in this case, this context has the ID user123.
 ![](./images/ldclientinitialize.jpg)
 
-LaunchDarkly lets you add add as many custom attributes as you like, and then use those attributes for your targeting rules. Attribute values can be either single strings (such as hello there) or lists of strings (such as ["this", "list", "right", "here"]).
+LaunchDarkly lets you add as many custom attributes as you like, and then use those attributes for your targeting rules. Attribute values can be either single strings (such as hello there) or lists of strings (such as ["this", "list", "right", "here"]).
 
 
 ## Targeting  Users with flags
-Targeting rules allow you to enable or disable feature for the users you specify in the feature flag.
+Targeting rules allow you to enable or disable the feature for the users you specify in the feature flag.
 ### Disable Dark Mode for Lisa
 1. Open a browser to the `index.html` file and click `Lisa` from the left navigation.
 ![](./images/lisademo1.jpg)
@@ -115,7 +115,7 @@ Targeting rules allow you to enable or disable feature for the users you specify
 1. Click `+ Add User targets` and select **Lisa** from the **Add users** drop down.
 ![](./images/lisademo2.jpg)
 1. Click `Save changes`
-The them **Dark Mode** will no longer be applied when the user **Lisa** is selected.
+The **Dark Mode** will no longer be applied when the user **Lisa** is selected.
 ![](./images/lisademo3.jpg)
 
 ## Targeting with Rules
