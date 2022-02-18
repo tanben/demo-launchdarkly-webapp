@@ -22,15 +22,13 @@ resource "launchdarkly_project" "demoProject" {
   key  = var.launchdarkly_project_key
   name = var.launchdarkly_project_name
 
-  tags = [
-    "terraform"
-  ]
+  tags = []
   
   environments {
         key   = var.launchdarkly_environment_key
         name  = var.launchdarkly_environment_name
         color = var.launchdarkly_environment_color
-        tags  = ["terraform"]
+        tags  = []
     }
 }
 
@@ -55,7 +53,7 @@ resource "launchdarkly_feature_flag" "showBadge" {
     off_variation = 1
   }
 
-  tags  = ["terraform"]
+  tags  = ["managed-by-terraform"]
   temporary= true
   include_in_snippet = true
 }
@@ -82,7 +80,7 @@ resource "launchdarkly_feature_flag" "showLikeButton" {
     off_variation = 1
   }
 
-  tags = ["terraform"]
+  tags = []
   temporary= true
   include_in_snippet = true
 }
@@ -129,7 +127,7 @@ resource "launchdarkly_feature_flag" "getLauncherDetails" {
     off_variation = 2
   }
 
-  tags = ["terraform"  ]
+  tags = ["managed-by-terraform"]
   temporary= true
   include_in_snippet = true
 }
@@ -156,7 +154,7 @@ resource "launchdarkly_feature_flag" "darkMode" {
     off_variation = 1
   }
 
-  tags = ["terraform"  ]
+  tags = []
   temporary= true
   include_in_snippet = true
 }
@@ -183,7 +181,7 @@ resource "launchdarkly_feature_flag" "showUIDebug" {
     off_variation = 1
   }
 
-  tags = ["terraform"  ]
+  tags = ["managed-by-terraform"]
   temporary= true
   include_in_snippet = true
 }
@@ -247,9 +245,6 @@ resource "launchdarkly_feature_flag_environment" "showUIDebug" {
   }
   off_variation = 1
 }
-
-
-
 data "launchdarkly_environment" "environment" {
     depends_on=[launchdarkly_project.demoProject]
     project_key  = var.launchdarkly_project_key
