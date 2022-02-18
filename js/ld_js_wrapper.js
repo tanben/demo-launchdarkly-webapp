@@ -117,6 +117,10 @@ function getGeoData(){
 function createUser({key, name, email, group, coast, state,  anonymous}={anonymous:true, name:""}){
 
     let isAnonymous= (anonymous && (anonymous=='true' || anonymous==true));
+    if (isAnonymous){
+        name="anonymous";
+        email = "anonymous@tester.com";
+    }
     let userObj={
         key: (isAnonymous)? null :key,
         name, email,
