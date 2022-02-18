@@ -6,7 +6,8 @@
         This method is not recommended for production use.
         -->
         <script crossorigin="anonymous" src="https://unpkg.com/launchdarkly-js-client-sdk@2"></script> 
-        
+        <script src="./data/eastCoastData.js"></script>
+        <script src="./data/westCoastData.js"></script>
         <script src="./js/pageUtil.js"></script>
         <script src="./js/ld_js_wrapper.js"></script>
 
@@ -33,15 +34,14 @@
                 document.querySelector('#main').style.display="none";
                 ldWrapper.onReady(async function(){
                     
-                    // pageUtils.setArtistDetails (); // use artists sample data
                     pageUtils.setLaunchersDetails();  // use Dark launchers sample data
                     
                     await pageUtils.register();
                     
                     let user =  ldWrapper.getUser();
-                    let name = (!user.anonymous)? user.name : `Anonymous-${user.key.split("-")[0]}`;
+                    let name = (!user.anonymous)? user.name : `${user.key.split("-")[0]}`;
                     
-                    document.getElementById('captionMessage').textContent=`Hello ${name}`;
+                    pageUtils.updateUserPageDetails({name, ...user.custom});
                     document.querySelector('#main').style.display="block";
                 });    
             });
@@ -84,8 +84,9 @@
                     <header class="header">
                         <h1>
                             <div id="caption" class="caption">
-                                <div id="captionMessage" class="caption-message">Hello Anonymous</div>
-                                <div id="captionMessage2" class="caption-message"></div>
+                                <div id="captionMessage" class="caption-message">Hello </div>
+                                <div id="captionMessage2" class="caption-message-tiny"></div>
+                                <div id="captionMessage3" class="caption-message-tiny"></div>
                                 <span id="captionBadge" class="caption-badge">0</span>
                             </div>
                             <div id="ctaLikebutton" class="likebutton-container">

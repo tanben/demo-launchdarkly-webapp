@@ -1,27 +1,19 @@
 
+
 const PageUtils= (ldWrapper) => {
     
     ldWrapper = (!ldWrapper) ? window.ldWrapperInstance : ldWrapper ;
     let {project, environment, clientId, version:SDKVersion} = ldWrapper;
     
-    
-    function setArtistDetails(){
-        pageUtils.setDataSet('user1', {userId:'Seth', group:'Team Timberlake', flagKey:'get-artists-details'});
-        pageUtils.setDataSet('user2', {userId:'Lisa', group:'Team Bieber', flagKey:'get-artists-details'});
-        pageUtils.setDataSet('user3', {userId:'Rajah', group:'Team Timberlake', flagKey:'get-artists-details'});
-        pageUtils.setDataSet('user4', {userId:'Maria', group:'Team Bieber', flagKey:'get-artists-details'});
-        pageUtils.setDataSet('user5', {userId:'Anonymous', group:'',  flagKey:'get-artists-details',anonymous:true,});
-    }
-
     function setLaunchersDetails(){
-        pageUtils.setDataSet('user1', {userId:'Seth', group:'Light Launchers', flagKey:'get-launcher-details'});
-        pageUtils.setDataSet('user2', {userId:'Lisa', group:'Dark Launchers', flagKey:'get-launcher-details'});
-        pageUtils.setDataSet('user3', {userId:'Rajah', group:'Light Launchers', flagKey:'get-launcher-details'});
-        pageUtils.setDataSet('user4', {userId:'Maria', group:'Dark Launchers', flagKey:'get-launcher-details'});
-        pageUtils.setDataSet('user5', {userId:'Anonymous', group:'', flagKey:'get-launcher-details', anonymous:true});
+        pageUtils.setDataSet('user1', {userId:'Seth', group:'Light Launchers', state:'Delaware', coast:'East Coast', flagKey:'get-launcher-details'});
+        pageUtils.setDataSet('user2', {userId:'Lisa', group:'Dark Launchers',state:'California', coast:'West Coast', flagKey:'get-launcher-details'});
+        pageUtils.setDataSet('user3', {userId:'Rajah', group:'Light Launchers',state:'Massachusetts', coast:'East Coast', flagKey:'get-launcher-details'});
+        pageUtils.setDataSet('user4', {userId:'Maria', group:'Dark Launchers',state:'Oregon', coast:'West Coast', flagKey:'get-launcher-details'});
+        pageUtils.setDataSet('user5', {userId:'', group:'', flagKey:'get-launcher-details', anonymous:true});
     }
 
-    function setDataSet(byId, {userId, group, flagKey, anonymous=false}, data){
+    function setDataSet(byId, {userId, group, state, coast, flagKey, anonymous=false}, data){
             let element = document.getElementById(byId);
             element.dataset.email=`${userId.toLowerCase()}@tester.com`;
             element.dataset.key=`${userId.toLowerCase()}@tester.com`;
@@ -29,16 +21,24 @@ const PageUtils= (ldWrapper) => {
             element.dataset.group= `${group}`;
             element.dataset.anonymous= anonymous;
             element.dataset.flagKey= `${flagKey}`;
+            element.dataset.state= `${state}`;
+            element.dataset.coast= `${coast}`;
 
             if (data){
                 element.dataset= {...element.dataset, ...data};
             }
     }
     function getDataSet(byId){
-        let element = document.getElementById(byId);
-        let flagKey= element.dataset.flagKey;
-        delete element.dataset.flagKey;
-        return {flagKey, userDetail:{...element.dataset}};
+        let {dataset} = document.getElementById(byId);
+        let flagKey= dataset.flagKey;
+        delete dataset.flagKey;
+        
+        for (k in dataset){
+            if (dataset[k]=='undefined'){
+                    delete dataset[k]
+            }
+        }
+        return {flagKey, userDetail:{...dataset}};
         
     }
     function updateBadge(value){
@@ -52,7 +52,14 @@ const PageUtils= (ldWrapper) => {
         }
     }
 
-    
+    function updateUserPageDetails({name, groupName="", coast, state, badgeValue="0"}){
+        document.getElementById('captionMessage').textContent=`Hello ${name}`;
+        
+        document.getElementById('captionMessage2').textContent=`${groupName}`;
+        document.getElementById('captionMessage3').textContent=`${coast} - ${state}`;
+        document.getElementById('captionBadge').textContent= badgeValue;
+    }
+
     async function switchUser(byId){
 
         let {flagKey, userDetail} = getDataSet(byId);
@@ -70,15 +77,16 @@ const PageUtils= (ldWrapper) => {
         let groupName=custom.group;
         if (anonymous){
             let id= ldWrapper.getUser().key.split("-")[0]
-            name= `${name}-${id}`;
+            name= `${id}`;
             groupName=''
         }
-        
+      
+        updateUserPageDetails({name, groupName, ...custom});
 
-
-        document.getElementById('captionMessage').textContent=`Hello ${name}`;
-        document.getElementById('captionMessage2').textContent=`${groupName}`;
-        document.getElementById('captionBadge').textContent="0"
+        // document.getElementById('captionMessage').textContent=`Hello ${name}`;
+        // document.getElementById('captionMessage2').textContent=`${groupName}`;
+        // document.getElementById('captionMessage3').textContent=`${custom.coast} - ${custom.state}`;
+        // document.getElementById('captionBadge').textContent="0"
 
         logDebug();
     }
@@ -94,6 +102,7 @@ const PageUtils= (ldWrapper) => {
             element.style= (show)?"display:inline !important":"display:none !important";
 
             ldWrapper.onChange(flagKey,  (show)=>{
+                    // console.log(`show-badge: show=${show}`)
                     element.style= (show)?"display:inline !important":"display:none !important";
                 });
             
@@ -114,7 +123,7 @@ const PageUtils= (ldWrapper) => {
             let details= ldWrapper.variationDetail(flagKey, false);
             let {value:show, variationIndex} = details;
             element.style= (show)?"display:inline !important":"display:none !important";
-            console.log(`ldsubscribe_likeButton(): variationDetail=${JSON.stringify(details)}`);
+            // console.log(`ldsubscribe_likeButton(): variationDetail=${JSON.stringify(details)}`);
 
             ldWrapper.onChange(flagKey,  (show)=>{
                 element.style= (show)?"display:inline !important":"display:none !important";
@@ -142,7 +151,7 @@ const PageUtils= (ldWrapper) => {
             let details= ldWrapper.variationDetail(flagKey, toggle);
             let {heroName, backgroundImage, heroImage}= details.value;
 
-            console.log(`ldsubscribe_heroImage(): user=[${JSON.stringify(ldWrapper.getUser())}] flagKey=[${flagKey}] variationDetail=${JSON.stringify(details)}`);
+            // console.log(`ldsubscribe_heroImage(): user=[${JSON.stringify(ldWrapper.getUser())}] flagKey=[${flagKey}] variationDetail=${JSON.stringify(details)}`);
             document.querySelector("img#heroBGImage").src=`./images/${backgroundImage}`;
             document.querySelector("img#heroImage").src=`./images/${heroImage}`;
            
@@ -170,7 +179,7 @@ const PageUtils= (ldWrapper) => {
 
             let details= ldWrapper.variationDetail(flagKey, false);
             let enable = details.value;
-            console.log(`ldsubscribe_darkMode(): variationDetail=${JSON.stringify(details)}`);
+            // console.log(`ldsubscribe_darkMode(): variationDetail=${JSON.stringify(details)}`);
             
             for (selector of selectors){
                 let element = document.querySelector(selector);
@@ -198,7 +207,7 @@ const PageUtils= (ldWrapper) => {
             let usrEle = document.querySelector("#userDetail");
             usrEle.textContent= JSON.stringify(ldWrapper.getUser(),null,2);
 
-            console.log("JSClient release https://github.com/launchdarkly/js-client-sdk/releases");
+            // console.log("JSClient release https://github.com/launchdarkly/js-client-sdk/releases");
     }
     function ldsubscribe_debug(){
        return new Promise( resolve=>{
@@ -236,7 +245,7 @@ const PageUtils= (ldWrapper) => {
         switchUser,
         updateBadge,
         setLaunchersDetails,
-        setArtistDetails,
+        updateUserPageDetails,
         register
     }
 };

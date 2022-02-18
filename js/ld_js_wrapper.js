@@ -36,17 +36,16 @@ const ld_js_wrapper = ({clientId, project, environment,  debug=false, createUser
     }
     ;
     function main(){
-        
+        // LDOptions Streaming options for LD Relay
+        // https://launchdarkly.github.io/js-client-sdk/interfaces/_launchdarkly_js_client_sdk_.ldoptions.html#streamurl
+        // baseUrl:'http://localhost:8030'
         const options={
-            evaluationReasons:false
+            evaluationReasons:true
         };
 
         if (debug){
             options.logger=LDClient.createConsoleLogger("debug");
         }
-
-        
-        
         let ldClient = LDClient.initialize(
                                             clientId,
                                             user,
@@ -76,17 +75,13 @@ const ld_js_wrapper = ({clientId, project, environment,  debug=false, createUser
         })
     }
 
-    // check if instance already exist
     if (window && window.ldWrapperInstance){
-        debugger;
         if (window.ldWrapperInstance.clientId == clientId){
             return window.ldWrapperInstance;
         }
         
     }
 
-
-    // Main
     main();
 
     if (window){
@@ -97,7 +92,29 @@ const ld_js_wrapper = ({clientId, project, environment,  debug=false, createUser
 };
 
 
-function createUser({key, name, email, group, anonymous}={anonymous:true, name:"anonymous"}){
+function getGeoData(){
+    let coasts=[];
+    let coastsStr=[];
+    if (!eastCoastData && !westCoastData){
+        return {coast:"East Coast", state:"Georgia"};
+    }
+    if (eastCoastData){
+        coasts.push (eastCoastData);
+        coastsStr.push("East Coast");
+    }
+
+    if (westCoastData){
+        coasts.push (westCoastData);
+        coastsStr.push("West Coast")
+    }
+
+    let coastInt = Math.floor(Math.random() * coasts.length);
+    let stateInt = Math.floor(Math.random() * coasts[coastInt].length);
+    return {coast:coastsStr[coastInt], state:coasts[coastInt][stateInt].State};  //?
+
+}
+
+function createUser({key, name, email, group, coast, state,  anonymous}={anonymous:true, name:""}){
 
     let isAnonymous= (anonymous && (anonymous=='true' || anonymous==true));
     let userObj={
@@ -106,13 +123,24 @@ function createUser({key, name, email, group, anonymous}={anonymous:true, name:"
         anonymous: isAnonymous,
         custom:{
             timestamp: Date.now(),
-            group
-        }
+            group,
+            secret:"secret-124"
+        },
+        privateAttributeNames:['secret']
     };
-
+    
     if (isAnonymous){
         delete userObj.key;
     }
+    
+    if (!coast || !state){
+        let geo= getGeoData();
+        state= geo.state;
+        coast= geo.coast;
+    }
+    
+    userObj.custom.state= state;
+    userObj.custom.coast= coast;
 
     return userObj;
 }

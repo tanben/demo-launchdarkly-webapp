@@ -28,8 +28,8 @@ body {
 
 
 .hero-container{
-    width: 320px;
-    height: 320px;
+    width: 360px;
+    height: 360px;
     overflow: visible;
 }
 
@@ -45,7 +45,7 @@ body {
     width: 100%;
     position: absolute;
     min-height:100%;
-    top:62%;
+    top:78%;
     -webkit-transform: translate3d(0, -50%, 0);
     transform: translate3d(0, -50%, 0)
 }
@@ -115,7 +115,7 @@ body {
 
 .caption-container {
     position: relative;
-    width: 320px;
+    width: 360px;
     z-index: 5
 }
 
