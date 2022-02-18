@@ -86,54 +86,6 @@ resource "launchdarkly_feature_flag" "showLikeButton" {
   temporary= true
   include_in_snippet = true
 }
-
-resource "launchdarkly_feature_flag" "getArtistDetails" {
-  project_key = launchdarkly_project.demoProject.key
-  key         = "get-artists-details"
-  name        = "Get Artists Details"
-  description = "Get artists details"
-
-  variation_type = "json"
-
-  variations {
-    value = jsonencode(
-        {
-            "heroName": "Justin Timberlake",
-            "backgroundImage": "jtimberlake-bg.jpg",
-            "heroImage": "jtimberlake-hero.jpg"
-        }
-    )
-    name = "Justin Timberlake"
-  }
- variations {
-    value = jsonencode(
-        {
-            "heroName": "Justin Bieber",
-            "backgroundImage": "jbieber-hero.jpg",
-            "heroImage": "jbieber-hero.jpg"
-        }
-    )
-    name = "Justin Bieber"
-  }
- variations {
-    value = jsonencode(
-        {
-           "heroName": "Toggle",
-            "backgroundImage": "jtoggle-hero.png",
-            "heroImage": "jtoggle-hero.png"
-        }
-    )
-    name = "Toggle"
-  }
-  defaults {
-    on_variation = 1
-    off_variation = 2
-  }
-
-  tags = ["terraform"  ]
-  temporary= true
-  include_in_snippet = true
-}
 resource "launchdarkly_feature_flag" "getLauncherDetails" {
   project_key = launchdarkly_project.demoProject.key
   key         = "get-launcher-details"
@@ -249,36 +201,6 @@ resource "launchdarkly_feature_flag_environment" "showBadge-prereq" {
     variation = 0
   }
   off_variation = 1
-}
-
-resource "launchdarkly_feature_flag_environment" "getArtistDetailsTarget" {
-  flag_id           = launchdarkly_feature_flag.getArtistDetails.id
-  env_key           = var.launchdarkly_environment_key
-  on = true
-  track_events      = false
-
-  rules {
-    clauses {
-      attribute = "group"
-      op        = "contains"
-      values    = ["Timberlake"]
-      
-    }
-    variation = 0
-  }
-  rules {
-    clauses {
-      attribute = "group"
-      op        = "contains"
-      values    = ["Bieber"]
-      
-    }
-    variation = 1
-  }
-  fallthrough {
-   variation=2
-  }
-  off_variation = 2
 }
 
 
