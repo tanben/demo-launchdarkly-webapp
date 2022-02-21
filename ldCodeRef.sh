@@ -5,9 +5,11 @@
 # REQUIRED ARGS: https://github.com/launchdarkly/ld-find-code-refs/blob/master/docs/CONFIGURATION.md#required-arguments
 #----------------------
 
-TOKEN="<YOUR LD ACCESS TOKEN>"
-PROJECT="sample-js-demo"
-REPO_NAME="sample-js-demo"
+CONFIG=./terraform/development/terraform.tfvars
+source $CONFIG
+TOKEN="$access_token"
+PROJECT="$project_key"
+REPO_NAME="$project_key-repo"
 
 DEBUG="--debug"
 DRYRUN=""

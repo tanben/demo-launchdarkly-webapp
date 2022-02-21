@@ -89,19 +89,9 @@ OR
  $> terraform apply -auto-approve` // automatically applies changes without prompt
 
 ```
-
-3. Copy the client_side_id by running this command.
-
-On MAC
+3. Generate the .webconfig.js file by running this script
 ```
-$>  terraform output -json client_side_id | pbcopy
-```
-
-Manually copy the client-side ID
-
-```
-$>  terraform output -json client_side_id 
-"111aaabbbcccdddeeefffggg"
+$> ./creatwebconfig.sh
 ```
 
 

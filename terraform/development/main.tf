@@ -23,8 +23,14 @@ module "launchdarkly_demo_project"{
   launchdarkly_environment_color= var.environment_color
 }
 
-output "client_side_id"{
+
+output "config"{
   depends_on=[module.launchdarkly_demo_project]
-  value = module.launchdarkly_demo_project.client_side_id
-  sensitive = true
+    value       = {
+        clientId= "${module.launchdarkly_demo_project.client_side_id}",
+        project= "${var.project_key}",
+        environment= "${ var.environment_key}"
+    } 
+  sensitive=true
 }
+

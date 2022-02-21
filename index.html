@@ -10,16 +10,13 @@
         <script src="./data/westCoastData.js"></script>
         <script src="./js/pageUtil.js"></script>
         <script src="./js/ld_js_wrapper.js"></script>
-
+        <script src="./.webconfig.js"></script>
         <title>Demo JS Application</title>
         <script>
             const config = {
-                clientId:'<YOU LD CLIENT-ID>',
-                project:'sample-js-demo',
-                environment:'development',
+                ...webconfig,
                 debug:false,
                 createUser
-
             };
 
             // also creates a window.ldWrapperInstance
