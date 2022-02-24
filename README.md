@@ -48,27 +48,9 @@ This project includes:
 
 
 ## Setup
-1. Create an access token for creating your LaunchDarkly project using Terraform, read [API Access Token](https://docs.launchdarkly.com/home/account-security/api-access-tokens) for details. Copy the access token and update the ./terraform/development/terraform.tfvars.
+1. Provision the LaunchDarkly project and generate the .webconfig.js file by following the steps in the Provisioning LaunchDarkly Project with Terraform section. 
 
-```
-access_token="<Access Token for Terraform>"
-
-```
-
-2. Create LaunchDarkly project and copy the client-side ID by following the steps in section **Provisioning LaunchDarkly Project** below.
-
-3. Edit the index.html, and paste your client-side id
-```
-const config = {
-                clientId:'<LD Client-side ID>',
-                project:'sample-js-demo',
-                environment:'development',
-                debug:true,
-                createUser
-
-            };
-```
-4. Open your browser and type `<local path>/index.html` in your browser.
+2. Open your browser and type `<local path>/index.html` in your browser.
 ![](./images/Demo_JS_Application.jpg)
 
 ## Provisioning LaunchDarkly Project with Terraform
