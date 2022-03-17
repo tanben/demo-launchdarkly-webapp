@@ -27,8 +27,7 @@
             const pageUtils = PageUtils();
 
             window.addEventListener('DOMContentLoaded', async() => {
-                document.querySelector('#warningContainer').hidden=true;
-
+                document.querySelector('#warningContainer').style.display="none";
                 document.querySelector('#main').style.display="none";
                 ldWrapper.onReady(async function(){
                     
