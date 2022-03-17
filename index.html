@@ -27,7 +27,8 @@
             const pageUtils = PageUtils();
 
             window.addEventListener('DOMContentLoaded', async() => {
-                
+                document.querySelector('#warningContainer').hidden=true;
+
                 document.querySelector('#main').style.display="none";
                 ldWrapper.onReady(async function(){
                     
@@ -92,6 +93,12 @@
                         </h1>
                     </header>
                 </div><!-- captionContainer-->
+
+                <div id="warningContainer" class="warning-container">
+                        <span id="warning-message" class="warning-message">
+                            Missing Launchdarkly configuration
+                        </span>
+                </div>
 
                 <div id="debugContainer" class="debug-container">
                    <header>

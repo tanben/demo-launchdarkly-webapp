@@ -232,3 +232,8 @@ img.likebutton{
     width: 40px;
     background-size: 530px;
 }
+
+.warning-message{
+    font-size: 4em;
+    color: red;
+}
